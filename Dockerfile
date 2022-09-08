@@ -3,13 +3,15 @@ ENV APOS_MINIFY=1
 ENV NODE_ENV=production
 WORKDIR /app
 COPY package* ./
-RUN npm ci
-RUN mkdir scripts
+
 # Use "m" to temporarily install mongod in a lightweight way so
 # the asset build task does not encounter problems initializing modules
 # that expect a database. We do not actually need this database in the
 # container, so uninstall it at the end
 RUN npm install -g m
+
+RUN npm ci
+RUN mkdir scripts
 RUN apt-get -y update
 RUN apt-get -y install scons
 RUN m 3.6
